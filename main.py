@@ -1,15 +1,12 @@
 import requests
-comuna_destino = 'LA SERENA'  # comuna asociada al envío
-url = 'https://midas.minsal.cl/farmacia_v2/WS/getLocalesTurnos.php'
-respuesta = requests.get(url, timeout=10)
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
-farmacias = respuesta.json()
-farmacias_comuna = []
+url = "https://api.weatherapi.com/v1/current.json"
+token = f"?key={os.getenv("token")}"
+ciudad = f"&q={input("Ciudad a consultar: ")}"
 
-for farmacia in farmacias:
-    if farmacia['comuna_nombre'] == comuna_destino:
-        farmacias_comuna.append(farmacia)
+res = requests.get(url=url+token+ciudad)
 
-cantidad = len(farmacias_comuna)
-
-print(f'Se encontraron {cantidad} farmacias de turno en {comuna_destino}.')
+print(res.json())
